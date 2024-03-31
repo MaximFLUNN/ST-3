@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <thread> // NOLINT [build/c++11]
 #include <chrono> // NOLINT [build/c++11]
+#include <condition_variable> // NOLINT [build/c++11]
+#include <mutex> // NOLINT [build/c++11]
 
 DoorTimerAdapter::DoorTimerAdapter(TimedDoor& door) : door(door) {}
 
@@ -23,8 +25,13 @@ bool TimedDoor::isDoorOpened() {
 
 void TimedDoor::unlock() {
   isOpened = true;
+  std::condition_variable cv;
+  std::mutex m;
   Timer timer;
-  timer.tregister(iTimeout, adapter);
+  timer.tregister(iTimeout, adapter, cv, m);
+
+  std::unique_lock<std::mutex> lock(m);
+  cv.wait(lock);
 }
 
 void TimedDoor::lock() {
@@ -39,9 +46,10 @@ void TimedDoor::throwState() {
   throw std::runtime_error("Door is still open!");
 }
 
-void Timer::tregister(int timeout, TimerClient* client) {
+void Timer::tregister(int timeout, TimerClient* client, std::condition_variable& cv, std::mutex& m) {
   sleep(timeout);
   client->Timeout();
+  cv.notify_all();
 }
 
 void Timer::sleep(int timeout) {
