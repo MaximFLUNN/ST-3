@@ -3,6 +3,9 @@
 #ifndef INCLUDE_TIMEDDOOR_H_
 #define INCLUDE_TIMEDDOOR_H_
 
+#include <condition_variable>
+#include <mutex>
+
 class DoorTimerAdapter;
 class Timer;
 class Door;
@@ -46,7 +49,8 @@ class Timer {
     TimerClient* client;
     void sleep(int);
  public:
-    void tregister(int, TimerClient*);
+    void tregister(int timeout, TimerClient* client,
+    std::condition_variable& cv, std::mutex& m); // NOLINT [build/c++11]
 };
 
 #endif  // INCLUDE_TIMEDDOOR_H_

@@ -46,7 +46,8 @@ void TimedDoor::throwState() {
   throw std::runtime_error("Door is still open!");
 }
 
-void Timer::tregister(int timeout, TimerClient* client, std::condition_variable& cv, std::mutex& m) {
+void Timer::tregister(int timeout, TimerClient* client,
+std::condition_variable& cv, std::mutex& m) {
   sleep(timeout);
   client->Timeout();
   cv.notify_all();
