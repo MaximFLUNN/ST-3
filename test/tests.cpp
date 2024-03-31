@@ -1,6 +1,7 @@
 // Copyright 2024 Filatov Maxim
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <cstdint>
 #include "TimedDoor.h"
 
