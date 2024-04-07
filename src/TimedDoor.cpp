@@ -1,4 +1,4 @@
-// Copyright 2024 Filatov Maxim
+// Copyright 2024 Gontsov Roman
 
 #include "../include/TimedDoor.h"
 #include <stdexcept>
