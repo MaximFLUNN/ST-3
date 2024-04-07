@@ -1,4 +1,4 @@
-// Copyright 2024 Gontsov Roman
+// Copyright 2024 Filatov Maxim
 
 #ifndef INCLUDE_TIMEDDOOR_H_
 #define INCLUDE_TIMEDDOOR_H_
